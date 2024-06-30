@@ -22,6 +22,8 @@
 # define WIDTH 1200
 # define HEIGHT 1200
 
+typedef unsigned char	byte;
+
 typedef struct s_img
 {
 	void	*img;
@@ -31,17 +33,15 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_mlx_data
+typedef struct s_fract
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
 	t_img	img;
-}	t_mlx_data;
+}	t_fract;
 
-
-typedef struct s_all
-{
-	t_mlx_data	*mlxd;
-}	t_all;
+//coloring
+int color_screen(t_fract *fractol, int color);
+int	encode_rgb(byte red, byte green, byte blue);
 
 #endif

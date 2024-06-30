@@ -11,84 +11,87 @@
 /* ************************************************************************** */
 
 #include "fractal.h"
-#include <mlx.h>
 
-
-void	mlx_pixel_put(t_all *meta, int x, int y, int color)
+int	mlx_exit(t_fract *fractol)
 {
-	char	*dst;
-	t_mlx_data	*data;
-
-	data = meta->mlxd;
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	ft_free(void *ptr)
-{
-	if (ptr)
-		free(ptr);
-	ptr = NULL;
-}
-
-int	destroy_all(t_all *meta)
-{
-	if (meta->mlxd->win_ptr)
-		mlx_destroy_window(meta->mlxd->mlx_ptr, meta->mlxd->win_ptr);
-	if (meta->mlxd->mlx_ptr)
+	if (fractol->win_ptr)
+		mlx_destroy_window(fractol->mlx_ptr, fractol->win_ptr);
+	if (fractol->img.img)
+		mlx_destroy_image(fractol->mlx_ptr, fractol->img.img);
+	if (fractol->mlx_ptr)
 	{
-		mlx_destroy_display(meta->mlxd->mlx_ptr);
-		free(meta->mlxd->mlx_ptr);
+		mlx_destroy_display(fractol->mlx_ptr);
+		free(fractol->mlx_ptr);
 	}
-	// if (meta->mlxd->mlx_ptr)
-	// 	ft_free(meta->mlxd->mlx_ptr);
-	if (meta->mlxd)
-		ft_free(meta->mlxd);
-	if (meta)
-		ft_free(meta);
-	return (exit(0), 0);
+	// if (fractol->img.addr)
+	// 	free(fractol->img.addr);
+	free(fractol);
+	return (exit(EXIT_SUCCESS), 1);
 }
 
-int	handle_key(int keysym, t_all *meta)
+t_fract *init_fractol(void)
+{
+	t_fract *fractol;
+
+	fractol = malloc(sizeof(t_fract));
+	if (!fractol)
+		return (exit(EXIT_FAILURE), NULL);
+	fractol->mlx_ptr = NULL;
+	fractol->win_ptr = NULL;
+	fractol->img.img = NULL;
+	fractol->img.addr = NULL;
+	return (fractol);
+}
+
+t_fract	*intialize(void)
+{
+	t_fract	*fractol;
+	fractol = init_fractol();
+	if (!fractol)
+		return (exit(EXIT_FAILURE), NULL);
+	fractol->mlx_ptr = mlx_init();
+	if (!fractol->mlx_ptr)
+		return (free(fractol), exit(EXIT_FAILURE), NULL);
+	fractol->win_ptr = mlx_new_window(fractol->mlx_ptr, WIDTH, HEIGHT, "fract_ol");
+	if (!fractol->win_ptr)
+		return (mlx_exit(fractol), NULL);
+	fractol->img.img = mlx_new_image(fractol->mlx_ptr, WIDTH, HEIGHT);
+	if (!fractol->img.img)
+		return (mlx_exit(fractol), NULL);
+	fractol->img.addr = mlx_get_data_addr(fractol->img.img, &fractol->img.bits_per_pixel, &fractol->img.line_length, &fractol->img.endian);
+	if (!fractol->img.addr)
+		return (mlx_exit(fractol), NULL);
+	return (fractol);
+}
+
+int	handle_key(int keysym, t_fract *fractol)
 {
 	if (keysym == XK_Escape)
 	{
-		destroy_all(meta);
-		exit(0);
+		printf("The %d (ESC) key has been pressed\n", keysym);
+		return (mlx_exit(fractol), 1);
 	}
-	else 
-		printf("Key: %x\n", keysym);
+	else if (keysym == 114)
+		color_screen(fractol, encode_rgb(255, 0, 0));
+	else if (keysym == 103)
+		color_screen(fractol, encode_rgb(0, 255, 0));
+	else if (keysym == 98)
+		color_screen(fractol, encode_rgb(0, 0, 255));
+	printf("The %d key has been pressed\n\n", keysym);
+
 	return (0);
+
 }
 
-t_all	*meta_init(t_all *meta)
+int main(void)
 {
-	meta = malloc(sizeof(t_all));
-		if (!meta)
-			return (NULL);
-	meta->mlxd = malloc(sizeof(t_mlx_data));
-	if (!meta->mlxd)
-			return (free(meta), NULL);
-	meta->mlxd->mlx_ptr = mlx_init();
-	if (!meta->mlxd->mlx_ptr)
-		return (free(meta->mlxd), free(meta), NULL);
-	return (meta);
-}
+	t_fract	*fractol;
 
-int	main(void)
-{
-	t_all	*meta;
+	fractol = intialize();
 
-	meta = NULL;
-	meta = meta_init(meta);
-	if (!meta)
-		return (1);
-	meta->mlxd->win_ptr = mlx_new_window(meta->mlxd->mlx_ptr, 800, 600, "Fract'ol");
-	if (!meta->mlxd->win_ptr)
-		return (destroy_all(meta), 2);
-	mlx_key_hook(meta->mlxd->win_ptr, handle_key, meta);
-	mlx_hook(meta->mlxd->win_ptr, 17, 0, destroy_all, meta);
-	mlx_loop(meta->mlxd->mlx_ptr);
-	destroy_all(meta);
-	return (0);
+	mlx_hook(fractol->win_ptr, 17, 0, mlx_exit, fractol);
+	mlx_key_hook(fractol->win_ptr, handle_key, fractol);
+	mlx_loop(fractol->mlx_ptr);
+	return (mlx_exit(fractol), 0);
+
 }

@@ -11,15 +11,16 @@
 # **************************************************************************** #
 
 Name 	:= fract_ol
-CFLAGS 	:=  -lmlx -lXext -lX11 -lm -g
+CFLAGS 	:= -g 
+LDFLAGS	:= -L/usr/local/lib/minilibx.a -lmlx -lXext -lX11 -lm 
 CC 		:= cc
-SRC 	:= main.c
+SRC 	:= main.c coloring.c
 OBJ 	:= $(SRC:.c=.o)
 
 all: $(Name)
 
 $(Name): $(OBJ)
-	$(CC) $(CFLAGS) -o $(Name) $(OBJ)
+	$(CC) $(CFLAGS) -o $(Name) $(OBJ) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJ)
