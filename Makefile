@@ -11,10 +11,15 @@
 # **************************************************************************** #
 
 Name 	:= fract_ol
-CFLAGS 	:= -g 
+CFLAGS 	:= -g -I./includes
 LDFLAGS	:= -L/usr/local/lib/minilibx.a -lmlx -lXext -lX11 -lm 
 CC 		:= cc
-SRC 	:= main.c coloring.c
+SRC 	:=	./src/colorsets.c \
+			./src/calculate_fractal.c \
+			./src/math_scale_and_range.c \
+			./src/coloring.c \
+			./src/math_complex.c \
+			./src/main.c
 OBJ 	:= $(SRC:.c=.o)
 
 all: $(Name)

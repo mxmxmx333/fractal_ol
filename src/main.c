@@ -71,12 +71,6 @@ int	handle_key(int keysym, t_fract *fractol)
 		printf("The %d (ESC) key has been pressed\n", keysym);
 		return (mlx_exit(fractol), 1);
 	}
-	else if (keysym == 114)
-		color_screen(fractol, encode_rgb(255, 0, 0));
-	else if (keysym == 103)
-		color_screen(fractol, encode_rgb(0, 255, 0));
-	else if (keysym == 98)
-		color_screen(fractol, encode_rgb(0, 0, 255));
 	printf("The %d key has been pressed\n\n", keysym);
 
 	return (0);
@@ -88,9 +82,11 @@ int main(void)
 	t_fract	*fractol;
 
 	fractol = intialize();
-
+	set_range(fractol, -2.0, 2.0);
 	mlx_hook(fractol->win_ptr, 17, 0, mlx_exit, fractol);
+	render_mandelbrot(fractol);
 	mlx_key_hook(fractol->win_ptr, handle_key, fractol);
+	put_colorset_oceanic_dreams(fractol);
 	mlx_loop(fractol->mlx_ptr);
 	return (mlx_exit(fractol), 0);
 
