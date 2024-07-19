@@ -3,6 +3,7 @@
 		"mlx.h": "c",
 		"stdlib.h": "c",
 		"math.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"keysym.h": "c"
 	}
 }

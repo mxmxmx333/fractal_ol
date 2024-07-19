@@ -17,12 +17,29 @@
 # include <stdlib.h>
 # include <mlx.h>
 # include <X11/keysym.h>
+# include <X11/Xlib.h>
 # include <math.h>
 # include "colors.h"
 
-# define WIDTH 1200 //with of the window
-# define HEIGHT 1200 //height of the window
-# define MAX_IT 42 //maximum iteration
+# ifndef WIDTH
+#  define WIDTH 900 //with of the window
+# endif
+
+# ifndef HEIGHT
+#  define HEIGHT 900 //height of the window
+# endif
+
+# ifndef MAX_IT
+#  define MAX_IT 300 //maximum iteration
+# endif
+
+# ifndef ZOOM_FACTOR
+#  define ZOOM_FACTOR 0.5 //zoom factor
+# endif
+
+# ifndef MOVE_FACTOR
+#  define MOVE_FACTOR 0.1 //move factor
+# endif
 
 typedef unsigned char	byte; //byte is an unsigned char used to store rgb values
 
@@ -42,20 +59,33 @@ typedef struct s_complex
 	double	i; //imaginary part
 }	t_complex;
 
+typedef struct s_pixel
+{
+	int	x; //x coordinate
+	int	y; //y coordinate
+}	t_pixel;
+
 /*mlx data + fractal data*/
 typedef struct s_fract
 {
-	void		*mlx_ptr; //mlx_init
-	void		*win_ptr; //mlx_new_window
-	t_img		img; //image struct
-	double		range_min; //minimum range
-	double		range_max; //maximum range
-	int			color[10]; //color palette
+	void			*mlx_ptr; //mlx_init
+	void			*win_ptr; //mlx_new_window
+	char			rotation; //rotation
+	t_img			img; //image struct
+	double			x_min; //minimum x
+	double			x_max; //maximum x
+	double			y_min; //minimum y
+	double			y_max; //maximum y
+	void			(*render)(struct s_fract *fractol); //render function
+	int				color[10]; //color palette
+	int				buddha[HEIGHT][WIDTH]; //buddhabrot array
+	int				temp[HEIGHT][WIDTH]; //temporary array
+	int				condition; //condition für rendering
 }	t_fract;
 
 //coloring && rendering
 void	img_pixel_put(t_img *img, int x, int y, int color);
-int		get_color_iter(int i, t_fract *fractol);
+int		encode_rgb(byte r, byte g, byte b);
 
 //colorsets
 void	put_colorset_royal_elegance(t_fract *fractol);
@@ -65,16 +95,28 @@ void	put_colorset_forest_whisper(t_fract *fractol);
 void	put_colorset_sunset_glow(t_fract *fractol);
 
 //math && scaling
-void		set_range(t_fract *fractol, double min, double max);
+void		set_range(t_fract *fractol, double x_min, double x_max, double y_min, double y_max);
 double		scale_int_to_double(int x, int old_min, int old_max, double new_min, double new_max);
 int			scale_int_to_int(int x, int old_min, int old_max, int new_min, int new_max);
+int 		scale_double_to_int(double x, double old_min, double old_max, int new_min, int new_max);
 t_complex	complex_add(t_complex a, t_complex b);
 t_complex	complex_sqr(t_complex a);
+void		zoom_in(t_fract *fractol, double zoom, int x, int y);
+void		zoom_out(t_fract *fractol, double zoom, int x, int y);
+t_pixel 	apply_rotation(int x, int y, t_fract *fractol);
+
 
 //fractals mandelbrot
 void	render_mandelbrot(t_fract *fractol);
-void    set_range(t_fract *fractol, double min, double max);
-int		iterations_mb(int x, int y, t_fract *fractol);
+int		iterations_mb(t_pixel p, t_fract *fractol);
+void	render_buddhabrot(t_fract *fractol);
+
+
+//controls
+void	set_render(t_fract *fractol, char c);
+void	all_moves(int keysym, t_fract *fractol);
+void	move(t_fract *fractol, double range, int x);
+int		handle_mouse(int button, int x, int y, t_fract *fractol);
 
 
 
