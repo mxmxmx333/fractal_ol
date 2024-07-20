@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/06/26 17:28:00 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:08:45 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@
 # include "colors.h"
 
 # ifndef WIDTH
-#  define WIDTH 900 //with of the window
+#  define WIDTH 500 //with of the window
 # endif
 
 # ifndef HEIGHT
-#  define HEIGHT 900 //height of the window
+#  define HEIGHT 500 //height of the window
 # endif
 
 # ifndef MAX_IT
-#  define MAX_IT 300 //maximum iteration
+#  define MAX_IT 930 //maximum iteration
 # endif
 
 # ifndef ZOOM_FACTOR
-#  define ZOOM_FACTOR 0.5 //zoom factor
+#  define ZOOM_FACTOR 0.1 //zoom factor
 # endif
 
 # ifndef MOVE_FACTOR
@@ -43,12 +43,14 @@
 
 typedef unsigned char	byte; //byte is an unsigned char used to store rgb values
 
+/*list to store pixels*/
+
 /* image struct from mlx*/
 typedef struct s_img
 {
 	void	*img; //mlx_new_image
 	char	*addr; //mlx_get_data_addr
-	int		bits_per_pixel; 
+	int		bits_per_pixel;
 	int		line_length; 
 	int		endian;
 }	t_img;
@@ -65,6 +67,12 @@ typedef struct s_pixel
 	int	y; //y coordinate
 }	t_pixel;
 
+typedef struct s_list
+{
+	t_pixel			p;
+	struct s_list	*next;
+}	t_list;
+
 /*mlx data + fractal data*/
 typedef struct s_fract
 {
@@ -79,8 +87,10 @@ typedef struct s_fract
 	void			(*render)(struct s_fract *fractol); //render function
 	int				color[10]; //color palette
 	int				buddha[HEIGHT][WIDTH]; //buddhabrot array
-	int				temp[HEIGHT][WIDTH]; //temporary array
-	int				condition; //condition für rendering
+	int				b_factor; //factor for buddhabrot
+	// int				temp[HEIGHT][WIDTH]; //temporary array
+	// t_list			l_temp; //list of temporary pixels
+	//int				condition; //condition für rendering
 }	t_fract;
 
 //coloring && rendering

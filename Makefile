@@ -6,12 +6,12 @@
 #    By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/25 16:24:52 by mbonengl          #+#    #+#              #
-#    Updated: 2024/06/25 16:36:17 by mbonengl         ###   ########.fr        #
+#    Updated: 2024/07/20 12:12:16 by mbonengl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 Name 		:= 	fract_ol
-CFLAGS 		:= 	-g -I./includes
+CFLAGS 		:= 	-Ofast -I./includes
 LDFLAGS		:= 	-L/libft/libft.a -L/usr/local/lib/minilibx.a -lmlx -lXext -lX11 -lm 
 CC 			:= 	cc
 SRC_DIR 	:= 	./src
@@ -24,7 +24,7 @@ SRC 		:=	$(SRC_DIR)/colorsets.c \
 				$(SRC_DIR)/coloring.c \
 				$(SRC_DIR)/math_complex.c \
 				$(SRC_DIR)/main.c \
-				$(SRC_DIR)/buddhabrot.c
+				$(SRC_DIR)/buddhabrot2.c
 OBJ 		:= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(Name)

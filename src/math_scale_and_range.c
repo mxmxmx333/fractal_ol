@@ -50,7 +50,7 @@ void	zoom_in(t_fract *fractol, double zoom, int x, int y)
 	fractol->y_max = pos_y + new_range;
 	fractol->y_min = pos_y - new_range;
 	
-	render_mandelbrot(fractol);
+	fractol->render(fractol);
 }
 
 void	zoom_out(t_fract *fractol, double zoom, int x, int y)
@@ -69,5 +69,5 @@ void	zoom_out(t_fract *fractol, double zoom, int x, int y)
 	fractol->y_max = pos_y + new_range;
 	fractol->y_min = pos_y - new_range;
 
-	render_mandelbrot(fractol);
+	fractol->render(fractol);
 }

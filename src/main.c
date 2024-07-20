@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:06 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/06/26 17:29:16 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:42:09 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_fract *init_fractol(void)
 	fractol->win_ptr = NULL;
 	fractol->img.img = NULL;
 	fractol->img.addr = NULL;
+	fractol->b_factor = 1;
 	return (fractol);
 }
 
