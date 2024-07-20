@@ -1,0 +1,4 @@
+check files (no bash, no executable, no txts etc.)
+check for printfs
+norminette
+check for makefile flags

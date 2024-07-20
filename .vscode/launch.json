@@ -8,7 +8,7 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/fract_ol",
+			"program": "${workspaceFolder}/fractol",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",

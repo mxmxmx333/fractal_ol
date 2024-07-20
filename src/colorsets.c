@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colorsets.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/20 17:17:15 by mbonengl          #+#    #+#             */
+/*   Updated: 2024/07/20 17:17:54 by mbonengl         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractal.h"
 
 // //ROYAL ELEGANCE
@@ -14,6 +26,7 @@ void	put_colorset_royal_elegance(t_fract *fractol)
 	fractol->color[8] = MAUVE;
 	fractol->color[9] = LILAC;
 }
+
 //OCEANIC DREAMS
 void	put_colorset_oceanic_dreams(t_fract *fractol)
 {
@@ -28,6 +41,7 @@ void	put_colorset_oceanic_dreams(t_fract *fractol)
 	fractol->color[8] = LIGHT_AQUA;
 	fractol->color[9] = CYAN;
 }
+
 //FOREST WHISPER
 void	put_colorset_forest_whisper(t_fract *fractol)
 {
@@ -42,6 +56,7 @@ void	put_colorset_forest_whisper(t_fract *fractol)
 	fractol->color[8] = LIME;
 	fractol->color[9] = MINT_FOREST;
 }
+
 //SUNSET GLOW
 void	put_colorset_sunset_glow(t_fract *fractol)
 {

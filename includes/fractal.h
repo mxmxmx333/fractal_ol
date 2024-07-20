@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 12:08:45 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/20 22:30:58 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,43 @@
 # include <X11/Xlib.h>
 # include <math.h>
 # include "colors.h"
+# include "def_messages.h"
+# include "libft.h"
 
 # ifndef WIDTH
-#  define WIDTH 500 //with of the window
+#  define WIDTH 900 //with of the window
 # endif
 
 # ifndef HEIGHT
-#  define HEIGHT 500 //height of the window
+#  define HEIGHT 900 //height of the window
 # endif
 
 # ifndef MAX_IT
-#  define MAX_IT 930 //maximum iteration
+#  define MAX_IT 10000 //maximum iteration
 # endif
 
 # ifndef ZOOM_FACTOR
-#  define ZOOM_FACTOR 0.1 //zoom factor
+#  define ZOOM_FACTOR 0.8 //zoom factor
 # endif
 
 # ifndef MOVE_FACTOR
 #  define MOVE_FACTOR 0.1 //move factor
 # endif
 
-typedef unsigned char	byte; //byte is an unsigned char used to store rgb values
+//byte is an unsigned char used to store rgb values
+typedef unsigned char	t_byte;
 
-/*list to store pixels*/
+typedef struct s_i_ranges
+{
+	int		min;
+	int		max;
+}	t_i_ranges;
+
+typedef struct s_d_ranges
+{
+	double	min;
+	double	max;
+}	t_d_ranges;
 
 /* image struct from mlx*/
 typedef struct s_img
@@ -51,7 +64,7 @@ typedef struct s_img
 	void	*img; //mlx_new_image
 	char	*addr; //mlx_get_data_addr
 	int		bits_per_pixel;
-	int		line_length; 
+	int		line_length;
 	int		endian;
 }	t_img;
 
@@ -66,12 +79,6 @@ typedef struct s_pixel
 	int	x; //x coordinate
 	int	y; //y coordinate
 }	t_pixel;
-
-typedef struct s_list
-{
-	t_pixel			p;
-	struct s_list	*next;
-}	t_list;
 
 /*mlx data + fractal data*/
 typedef struct s_fract
@@ -88,46 +95,80 @@ typedef struct s_fract
 	int				color[10]; //color palette
 	int				buddha[HEIGHT][WIDTH]; //buddhabrot array
 	int				b_factor; //factor for buddhabrot
-	// int				temp[HEIGHT][WIDTH]; //temporary array
-	// t_list			l_temp; //list of temporary pixels
-	//int				condition; //condition für rendering
+	t_complex		julia; //julia set
 }	t_fract;
 
+//initialization & main
+t_fract		*intialize(void);
+int			input(int argc, char **argv, t_fract *fractol);
+
 //coloring && rendering
-void	img_pixel_put(t_img *img, int x, int y, int color);
-int		encode_rgb(byte r, byte g, byte b);
+void		img_pixel_put(t_img *img, int x, int y, int color);
+int			encode_rgb(t_byte r, t_byte g, t_byte b);
+int			get_color_iter(int i, t_fract *fractol);
+void		color_img_black(t_fract *fractol);
+void		apply_color(t_fract *fractol, int x, int y, int i);
 
 //colorsets
-void	put_colorset_royal_elegance(t_fract *fractol);
-void	put_colorset_autumn_harmony(t_fract *fractol);
-void	put_colorset_oceanic_dreams(t_fract *fractol);
-void	put_colorset_forest_whisper(t_fract *fractol);
-void	put_colorset_sunset_glow(t_fract *fractol);
+void		put_colorset_royal_elegance(t_fract *fractol);
+void		put_colorset_autumn_harmony(t_fract *fractol);
+void		put_colorset_oceanic_dreams(t_fract *fractol);
+void		put_colorset_forest_whisper(t_fract *fractol);
+void		put_colorset_sunset_glow(t_fract *fractol);
+void		put_colorset_ocean_breeze(t_fract *fractol);
+void		put_colorset_forest_canopy(t_fract *fractol);
+void		put_colorset_autumn_blaze(t_fract *fractol);
+void		put_colorset_mystic_purple(t_fract *fractol);
+void		put_colorset_tropical_sunset(t_fract *fractol);
+
+//img to window
+void		buddha_to_img(t_fract *fractol);
 
 //math && scaling
-void		set_range(t_fract *fractol, double x_min, double x_max, double y_min, double y_max);
-double		scale_int_to_double(int x, int old_min, int old_max, double new_min, double new_max);
-int			scale_int_to_int(int x, int old_min, int old_max, int new_min, int new_max);
-int 		scale_double_to_int(double x, double old_min, double old_max, int new_min, int new_max);
-t_complex	complex_add(t_complex a, t_complex b);
-t_complex	complex_sqr(t_complex a);
+void		set_range(t_fract *fractol, t_d_ranges x, t_d_ranges y);
+double		scale_int_to_double(int x, t_i_ranges old, t_d_ranges new);
+int			scale_int_to_int(int x, t_i_ranges old, t_i_ranges new);
+int			scale_double_to_int(double x, t_d_ranges old, t_i_ranges new);
 void		zoom_in(t_fract *fractol, double zoom, int x, int y);
 void		zoom_out(t_fract *fractol, double zoom, int x, int y);
-t_pixel 	apply_rotation(int x, int y, t_fract *fractol);
 
+//math && scaling custom
+t_pixel		apply_rotation(int x, int y, t_fract *fractol);
+t_pixel		get_pixel(int x, int y);
 
-//fractals mandelbrot
-void	render_mandelbrot(t_fract *fractol);
-int		iterations_mb(t_pixel p, t_fract *fractol);
-void	render_buddhabrot(t_fract *fractol);
+//complex math
+t_complex	complex_add(t_complex a, t_complex b);
+t_complex	complex_sqr(t_complex a);
 
+//renderers
+void		render_mandelbrot(t_fract *fractol);
+void		render_julia(t_fract *fractol);
+void		render_buddhabrot(t_fract *fractol);
+
+//iterations
+int			iterations_mb(t_pixel p, t_fract *fractol);
+int			iterations_julia(t_pixel p, t_fract *fractol);
+void		iterations_buddha(t_pixel p, t_fract *fractol);
+int			diverges(t_fract *fractol, t_pixel p);
 
 //controls
-void	set_render(t_fract *fractol, char c);
-void	all_moves(int keysym, t_fract *fractol);
-void	move(t_fract *fractol, double range, int x);
-int		handle_mouse(int button, int x, int y, t_fract *fractol);
+void		set_render(t_fract *fractol, char c);
+void		all_moves(int keysym, t_fract *fractol);
+void		move_up(t_fract *fractol);
+void		move_down(t_fract *fractol);
+void		move_right(t_fract *fractol);
+void		move_left(t_fract *fractol);
+int			handle_mouse(int button, int x, int y, t_fract *fractol);
+int			mlx_exit(t_fract *fractol);
+int			handle_key(int keysym, t_fract *fractol);
+void		manipulations(int keysym, t_fract *fractol);
+void		editjulia(t_fract *fractol, double x, double y);
 
+//helpers
+t_i_ranges	get_ir(int min, int max);
+t_d_ranges	get_dr(double min, double max);
+void		set_buddha_to_zero(t_fract *fractol);
+double		ft_atof(const char *str);
 
 
 #endif
