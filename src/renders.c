@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:22:53 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 20:11:10 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:20:19 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	render_mandelbrot(t_fract *fractol)
 		while (WIDTH > ++x)
 		{
 			i = iterations_mb(apply_rotation(x, y, fractol), fractol);
-			img_pixel_put(&fractol->img, x, y, get_color_iter(i, fractol));
+			// img_pixel_put(&fractol->img, x, y, get_color_iter(i, fractol));
+			apply_s_color(fractol, x, y, i);
 		}
 	}
 	mlx_put_image_to_window(fractol->mlx_ptr, fractol->win_ptr,

@@ -6,12 +6,12 @@
 #    By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/25 16:24:52 by mbonengl          #+#    #+#              #
-#    Updated: 2024/07/20 22:28:34 by mbonengl         ###   ########.fr        #
+#    Updated: 2024/07/22 11:24:37 by mbonengl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 Name 		:= 	fractol
-CFLAGS 		:= 	-Ofast -I./includes -I./libft/libft.h -Wall -Wextra -Werror
+CFLAGS 		:= 	-g -Ofast -I./includes -I./libft/libft.h 
 LDFLAGS		:= 	-L./libft -lft -L/usr/local/lib/minilibx.a -lmlx -lXext -lX11 -lm 
 CC 			:= 	cc
 SRC_DIR 	:= 	./src
@@ -34,7 +34,8 @@ SRC 		:=	$(SRC_DIR)/colorsets.c \
 				$(SRC_DIR)/julia_set.c \
 				$(SRC_DIR)/colorsets_two.c \
 				$(SRC_DIR)/parameters.c  \
-				$(SRC_DIR)/ft_atof.c
+				$(SRC_DIR)/ft_atof.c \
+				$(SRC_DIR)/soph_coloring.c
 OBJ 		:= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(Name)

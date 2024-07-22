@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 22:30:58 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:33:33 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 # endif
 
 # ifndef MAX_IT
-#  define MAX_IT 10000 //maximum iteration
+#  define MAX_IT 500 //maximum iteration
 # endif
 
 # ifndef ZOOM_FACTOR
-#  define ZOOM_FACTOR 0.8 //zoom factor
+#  define ZOOM_FACTOR 0.5 //zoom factor
 # endif
 
 # ifndef MOVE_FACTOR
@@ -45,6 +45,13 @@
 
 //byte is an unsigned char used to store rgb values
 typedef unsigned char	t_byte;
+
+typedef struct s_rgb 
+{
+	t_byte	r;
+	t_byte	g;
+	t_byte	b;
+}	t_rgb;
 
 typedef struct s_i_ranges
 {
@@ -92,6 +99,7 @@ typedef struct s_fract
 	double			y_min; //minimum y
 	double			y_max; //maximum y
 	void			(*render)(struct s_fract *fractol); //render function
+	void			(*shader)(struct s_fract *fractol, int x, int y, int i);
 	int				color[10]; //color palette
 	int				buddha[HEIGHT][WIDTH]; //buddhabrot array
 	int				b_factor; //factor for buddhabrot
@@ -108,6 +116,7 @@ int			encode_rgb(t_byte r, t_byte g, t_byte b);
 int			get_color_iter(int i, t_fract *fractol);
 void		color_img_black(t_fract *fractol);
 void		apply_color(t_fract *fractol, int x, int y, int i);
+void		apply_s_color(t_fract *fractol, int x, int y, int i);
 
 //colorsets
 void		put_colorset_royal_elegance(t_fract *fractol);

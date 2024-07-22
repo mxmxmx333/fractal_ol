@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:15:59 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 20:02:58 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:05:05 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	encode_rgb(t_byte r, t_byte g, t_byte b)
 {
 	return (r << 16 | g << 8 | b);
 }
-
+/*
 int	get_color_iter(int i, t_fract *fractol)
 {
 	int	index;
@@ -48,8 +48,7 @@ int	get_color_iter(int i, t_fract *fractol)
 		index = i;
 	return (fractol->color[index % 9 + 1]);
 }
-
-/*
+*/
 int	get_color_iter(int i, t_fract *fractol)
 {
 	int	index;
@@ -62,7 +61,7 @@ int	get_color_iter(int i, t_fract *fractol)
 		index = scale_int_to_int(i, get_ir(1, MAX_IT), get_ir(1, 9));
 	return (fractol->color[index]);
 }
-*/
+
 
 void	color_img_black(t_fract *fractol)
 {
