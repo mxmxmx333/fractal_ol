@@ -6,7 +6,7 @@
 #    By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/25 16:24:52 by mbonengl          #+#    #+#              #
-#    Updated: 2024/07/22 11:24:37 by mbonengl         ###   ########.fr        #
+#    Updated: 2024/07/22 20:04:17 by mbonengl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ SRC 		:=	$(SRC_DIR)/colorsets.c \
 				$(SRC_DIR)/colorsets_two.c \
 				$(SRC_DIR)/parameters.c  \
 				$(SRC_DIR)/ft_atof.c \
-				$(SRC_DIR)/soph_coloring.c
+				$(SRC_DIR)/soph_coloring.c \
+				$(SRC_DIR)/shading_julia.c \
+				$(SRC_DIR)/shading_mandelbrot.c
 OBJ 		:= 	$(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(Name)

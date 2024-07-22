@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:36:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 22:39:22 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:35:15 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,22 @@ double	ft_atof(const char *str)
 	double	dec;
 	int		sign;
 
-	result = 0;
-	dec = 0;
 	sign = 1;
 	if (*str == '-')
 	{
 		sign = -1;
 		str++;
 	}
+	result = 0;
+	while (ft_isdigit(*str))
+		result = result * 10 + *str++ - '0';
+	if (*str == '.')
+		str++;
+	dec = 1;
 	while (ft_isdigit(*str))
 	{
-		result = result * 10 + (*str - '0');
-		str++;
+		result = result * 10 + *str++ - '0';
+		dec *= 10;
 	}
-	if (*str == '.')
-	{
-		str++;
-		while (ft_isdigit(*str))
-		{
-			dec = dec * 10 + (*str - '0');
-			str++;
-		}
-	}
-	return (result + dec / pow(10, ft_strlen(str)) * sign);
+	return (result * sign / dec);
 }

@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:15:52 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 22:37:22 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:56:19 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,49 @@ void	set_colors(int keysym, t_fract *fractol)
 		put_colorset_mystic_purple(fractol);
 	if (keysym == 48)
 		put_colorset_tropical_sunset(fractol);
+	if (keysym == 93)
+		fractol->shift += 1;
+	if (fractol->render != render_buddhabrot)
+		fractol->render(fractol);
+	fractol->shader(fractol);
+}
+
+void	cpy_color_2(t_fract *fractol)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 10)
+		fractol->color2[i] = fractol->color[i];
+}
+
+void	cpy_color_3(t_fract *fractol)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 10)
+		fractol->color3[i] = fractol->color[i];
+}
+
+void	swap_shading(t_fract *fractol)
+{
+	if (fractol->shader == shader_julia)
+		fractol->shader = shader_julia2;
+	else if (fractol->shader == shader_julia2)
+		fractol->shader = shader_julia4;
+	else if (fractol->shader == shader_julia4)
+		fractol->shader = shader_julia;
+	else if (fractol->shader == shader_mandelbrot)
+		fractol->shader = shader_mandelbrot2;
+	else if (fractol->shader == shader_mandelbrot2)
+		fractol->shader = shader_mandelbrot3;
+	else if (fractol->shader == shader_mandelbrot3)
+		fractol->shader = shader_mandelbrot4;
+	else if (fractol->shader == shader_mandelbrot4)
+		fractol->shader = shader_mandelbrot;
+	if (fractol->render != render_buddhabrot)
+		fractol->render(fractol);
 }
 
 int	handle_key(int keysym, t_fract *fractol)
@@ -57,7 +100,7 @@ int	handle_key(int keysym, t_fract *fractol)
 		return (mlx_exit(fractol), 1);
 	if (keysym == 49 || keysym == 50 || keysym == 51 || keysym
 		== 52 || keysym == 53 || keysym == 54 || keysym == 55
-		|| keysym == 56 || keysym == 57 || keysym == 48)
+		|| keysym == 56 || keysym == 57 || keysym == 48 || keysym == 93)
 		set_colors(keysym, fractol);
 	if (keysym == XK_Up || keysym == XK_Down || keysym
 		== XK_Left || keysym == XK_Right)
@@ -70,7 +113,14 @@ int	handle_key(int keysym, t_fract *fractol)
 		set_render(fractol, 'b');
 	if (keysym == XK_r)
 		fractol->rotation = (fractol->rotation + 1) % 4;
-	fractol->render(fractol);
+	if (keysym == XK_w)
+		cpy_color_2(fractol);
+	if (keysym == XK_q)
+		cpy_color_3(fractol);
+	if (keysym == XK_s)
+		swap_shading(fractol);
+	printf("keysym: %d\n", keysym);
+	fractol->shader(fractol);
 	return (0);
 }
 

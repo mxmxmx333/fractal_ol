@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:48:16 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 18:40:23 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:24:48 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,21 @@ void	set_buddha_to_zero(t_fract *fractol)
 	{
 		j = -1;
 		while (WIDTH > ++j)
-			fractol->buddha[i][j] = 0;
+			fractol->buddha[i][j][0] = 0;
+	}
+	i = -1;
+	while (HEIGHT > ++i)
+	{
+		j = -1;
+		while (WIDTH > ++j)
+			fractol->buddha[i][j][1] = 0;
+	}
+	i = -1;
+	while (HEIGHT > ++i)
+	{
+		j = -1;
+		while (WIDTH > ++j)
+			fractol->buddha[i][j][2] = 0;
 	}
 }
 

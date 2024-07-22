@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:44:51 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 17:34:55 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:45:14 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,5 @@ void	all_moves(int keysym, t_fract *fractol)
 		move_left(fractol);
 	if (keysym == XK_Right)
 		move_right(fractol);
+	fractol->render(fractol);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   messages.h                                         :+:      :+:    :+:   */
+/*   def_messages.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:45:12 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 22:10:57 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 21:18:47 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 	- Change colorsets: numbers 1 - 0\n\
 	- Modes (julia: j, mandelbrot: m, buddhabrot: b)\n\
 	- Rotate: r\n\
-	- Exit: esc\n"
+	- Exit: esc\n\
+	- q / w: copy colorset to color 2 / 3 (for buddha only)\n\
+	- s: swap coloring (for julia and mandelbrot)\n"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:40:02 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 21:06:37 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:13:25 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,5 @@
 # define PEACH_PUFF      0xffdab9
 # define MOCCASIN        0xffe4b5
 # define PAPAYA_WHIP     0xffefd5
-
 
 #endif // COLORS_H

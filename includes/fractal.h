@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 11:33:33 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:35:41 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,19 @@ typedef struct s_fract
 	double			x_max; //maximum x
 	double			y_min; //minimum y
 	double			y_max; //maximum y
+	int				(*getcolor)(int i, struct s_fract *fractol); //get color function
 	void			(*render)(struct s_fract *fractol); //render function
-	void			(*shader)(struct s_fract *fractol, int x, int y, int i);
-	int				color[10]; //color palette
-	int				buddha[HEIGHT][WIDTH]; //buddhabrot array
+	void			(*shader)(struct s_fract *fractol); //shader function
+	int				m1; //max1
+	int				m2; //max2
+	int				m3; //max3
+	int				color[10];
+	int				color2[10];
+	int				color3[10]; //color palette
+	int				buddha[HEIGHT][WIDTH][3]; //buddhabrot array
 	int				b_factor; //factor for buddhabrot
 	t_complex		julia; //julia set
+	t_byte			shift; //shift the colors of the rgb shader
 }	t_fract;
 
 //initialization & main
@@ -112,11 +119,15 @@ int			input(int argc, char **argv, t_fract *fractol);
 
 //coloring && rendering
 void		img_pixel_put(t_img *img, int x, int y, int color);
-int			encode_rgb(t_byte r, t_byte g, t_byte b);
 int			get_color_iter(int i, t_fract *fractol);
+int			get_color_iter_j(int i, t_fract *fractol);
 void		color_img_black(t_fract *fractol);
 void		apply_color(t_fract *fractol, int x, int y, int i);
 void		apply_s_color(t_fract *fractol, int x, int y, int i);
+
+//RGB
+t_rgb		encodecolor(int color);
+int			encode_rgb(t_byte r, t_byte g, t_byte b);
 
 //colorsets
 void		put_colorset_royal_elegance(t_fract *fractol);
@@ -132,6 +143,15 @@ void		put_colorset_tropical_sunset(t_fract *fractol);
 
 //img to window
 void		buddha_to_img(t_fract *fractol);
+void		shader_mandelbrot(t_fract *fractol);
+void		shader_mandelbrot2(t_fract *fractol);
+void		shader_mandelbrot3(t_fract *fractol);
+void		shader_mandelbrot4(t_fract *fractol);
+
+void		shader_julia(t_fract *fractol);
+void		shader_julia2(t_fract *fractol);
+void		shader_julia4(t_fract *fractol);
+
 
 //math && scaling
 void		set_range(t_fract *fractol, t_d_ranges x, t_d_ranges y);
@@ -157,8 +177,8 @@ void		render_buddhabrot(t_fract *fractol);
 //iterations
 int			iterations_mb(t_pixel p, t_fract *fractol);
 int			iterations_julia(t_pixel p, t_fract *fractol);
-void		iterations_buddha(t_pixel p, t_fract *fractol);
-int			diverges(t_fract *fractol, t_pixel p);
+void		iterations_buddha(t_pixel p, t_fract *fractol, int max_it, int pos);
+int			diverges(t_fract *fractol, t_pixel p, int max_it);
 
 //controls
 void		set_render(t_fract *fractol, char c);

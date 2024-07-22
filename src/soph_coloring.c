@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:57:30 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 11:04:50 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:40:50 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_rgb	encodecolor(int color)
 	rgb.r = (color >> 16) & 0xFF;
 	rgb.g = (color >> 8) & 0xFF;
 	rgb.b = color & 0xFF;
-	return (rgb); 
+	return (rgb);
 }
 
 int	interpolate(int color1, int color2, double t)
@@ -39,12 +39,18 @@ int	interpolate(int color1, int color2, double t)
 int	soph_blending(t_fract *fractol, int i)
 {
 	float	t;
-	int 	index;
+	int		index;
+	int		max_it;
 
-	if (i == MAX_IT || i == 0)
+	if (fractol->shader == shader_julia
+		|| fractol->shader == shader_julia2 || fractol->shader == shader_julia4)
+		max_it = fractol->m1;
+	else
+		max_it = MAX_IT;
+	if (i == max_it || i == 0)
 		return (0);
-	t = (double)i / MAX_IT;
-	index = scale_int_to_int(i, get_ir(0, MAX_IT), get_ir(1, 9));
+	t = (double)i / max_it;
+	index = scale_int_to_int(i, get_ir(0, max_it), get_ir(1, 9));
 	return (interpolate(fractol->color[index], fractol->color[index + 1], t));
 }
 
@@ -55,8 +61,6 @@ void	apply_s_color(t_fract *fractol, int x, int y, int i)
 	color = soph_blending(fractol, i);
 	img_pixel_put(&fractol->img, x, y, color);
 }
-
-
 
 // int	soph_mod_blending(t_fract *fractol, int i)
 // {
