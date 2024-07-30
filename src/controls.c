@@ -6,73 +6,11 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:15:52 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 22:56:19 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:46:57 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
-
-int	mlx_exit(t_fract *fractol)
-{
-	if (fractol->win_ptr)
-		mlx_destroy_window(fractol->mlx_ptr, fractol->win_ptr);
-	if (fractol->img.img)
-		mlx_destroy_image(fractol->mlx_ptr, fractol->img.img);
-	if (fractol->mlx_ptr)
-	{
-		mlx_destroy_display(fractol->mlx_ptr);
-		free(fractol->mlx_ptr);
-	}
-	free(fractol);
-	return (exit(EXIT_SUCCESS), 1);
-}
-
-void	set_colors(int keysym, t_fract *fractol)
-{
-	if (keysym == 49)
-		put_colorset_autumn_harmony(fractol);
-	if (keysym == 50)
-		put_colorset_forest_whisper(fractol);
-	if (keysym == 51)
-		put_colorset_oceanic_dreams(fractol);
-	if (keysym == 52)
-		put_colorset_royal_elegance(fractol);
-	if (keysym == 53)
-		put_colorset_sunset_glow(fractol);
-	if (keysym == 54)
-		put_colorset_ocean_breeze(fractol);
-	if (keysym == 55)
-		put_colorset_forest_canopy(fractol);
-	if (keysym == 56)
-		put_colorset_autumn_blaze(fractol);
-	if (keysym == 57)
-		put_colorset_mystic_purple(fractol);
-	if (keysym == 48)
-		put_colorset_tropical_sunset(fractol);
-	if (keysym == 93)
-		fractol->shift += 1;
-	if (fractol->render != render_buddhabrot)
-		fractol->render(fractol);
-	fractol->shader(fractol);
-}
-
-void	cpy_color_2(t_fract *fractol)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 10)
-		fractol->color2[i] = fractol->color[i];
-}
-
-void	cpy_color_3(t_fract *fractol)
-{
-	int	i;
-
-	i = -1;
-	while (++i < 10)
-		fractol->color3[i] = fractol->color[i];
-}
 
 void	swap_shading(t_fract *fractol)
 {
@@ -90,6 +28,11 @@ void	swap_shading(t_fract *fractol)
 		fractol->shader = shader_mandelbrot4;
 	else if (fractol->shader == shader_mandelbrot4)
 		fractol->shader = shader_mandelbrot;
+}
+
+void	rotate(t_fract *fractol)
+{
+	fractol->rotation = (fractol->rotation + 1) % 4;
 	if (fractol->render != render_buddhabrot)
 		fractol->render(fractol);
 }
@@ -105,21 +48,16 @@ int	handle_key(int keysym, t_fract *fractol)
 	if (keysym == XK_Up || keysym == XK_Down || keysym
 		== XK_Left || keysym == XK_Right)
 		all_moves(keysym, fractol);
-	if (keysym == XK_m)
-		set_render(fractol, 'm');
-	if (keysym == XK_j)
-		set_render(fractol, 'j');
-	if (keysym == XK_b)
-		set_render(fractol, 'b');
+	if (keysym == XK_m || keysym == XK_j || keysym == XK_b)
+		set_render(fractol, keysym);
 	if (keysym == XK_r)
-		fractol->rotation = (fractol->rotation + 1) % 4;
+		rotate(fractol);
 	if (keysym == XK_w)
-		cpy_color_2(fractol);
+		cpy_color_2(fractol, keysym);
 	if (keysym == XK_q)
 		cpy_color_3(fractol);
 	if (keysym == XK_s)
 		swap_shading(fractol);
-	printf("keysym: %d\n", keysym);
 	fractol->shader(fractol);
 	return (0);
 }

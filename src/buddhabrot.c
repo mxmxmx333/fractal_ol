@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:35:50 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 17:56:47 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:31:45 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	complex_in_range(t_complex c, t_fract *fractol)
 	return (1);
 }
 
+/*
+// // This attempts purpose was to generate more details
 // void	iterations_buddha(t_pixel p, t_fract *fractol)
 // {
 // 	int			i;
@@ -38,9 +40,11 @@ int	complex_in_range(t_complex c, t_fract *fractol)
 // 		z = complex_add(complex_sqr(z), c);
 // 		if (complex_in_range(z, fractol))
 // 		{
-// 			p.x = scale_double_to_int(z.r, get_dr(fractol->x_min, fractol->x_max),
+// 			p.x = scale_double_to_int(z.r,\
+				get_dr(fractol->x_min, fractol->x_max),
 // 					get_ir(0, WIDTH - 1));
-// 			p.y = scale_double_to_int(z.i, get_dr(fractol->y_min, fractol->y_max),
+// 			p.y = scale_double_to_int(z.i, \
+			get_dr(fractol->y_min, fractol->y_max),
 // 					get_ir(0, HEIGHT - 1));
 // 			fractol->buddha[p.y][p.x]++;
 // 		}
@@ -48,6 +52,7 @@ int	complex_in_range(t_complex c, t_fract *fractol)
 // 			break ;
 // 	}
 // }
+*/
 
 void	iterations_buddha(t_pixel p, t_fract *fractol, int max_it, int pos)
 {
@@ -92,45 +97,6 @@ int	get_buddha_max(t_fract *fractol, int pos)
 				max = fractol->buddha[i][j][pos];
 	}
 	return (max);
-}
-
-int add_rgb(int color, int color2)
-{
-	t_rgb	rgb;
-	t_rgb	rgb2;
-
-	rgb = encodecolor(color);
-	rgb2 = encodecolor(color2);
-	rgb.r += rgb2.r;
-	rgb.g += rgb2.g;
-	rgb.b += rgb2.b;
-	return (encode_rgb(rgb.r, rgb.g, rgb.b));
-}
-
-int	get_buddha_color(t_fract *f, int i, int j)
-{
-	int color;
-	int color2;
-
-	if (f->buddha[i][j][0] <= f->m1 / 5 && f->buddha[i][j][1] <= f->m2 / 5 && f->buddha[i][j][2] <= f->m3 / 5)
-		return (0);
-	if (f->m1 != 0) 
-		color = f->color3[scale_int_to_int(f->buddha[i][j][0], get_ir(1, f->m1), get_ir(1, 9))];
-	else
-		color = 0;
-	if (f->m2 != 0)
-		color2 = f->color2[scale_int_to_int(f->buddha[i][j][1], get_ir(1, f->m2), get_ir(1, 9))];
-	else
-		color2 = 0;
-	if (color2 != 0)
-		color = add_rgb(color, color2);
-	if (f->m3 != 0)
-		color2 = f->color[scale_int_to_int(f->buddha[i][j][2], get_ir(1, f->m3), get_ir(1, 9))];
-	else
-		color2 = 0;
-	if (color2 != 0)
-	color = add_rgb(color, color2);
-	return (color);
 }
 
 void	buddha_to_img(t_fract *fractol)

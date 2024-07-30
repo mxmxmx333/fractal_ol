@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:15:59 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 22:29:25 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:41:36 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,14 @@
 
 void	apply_color(t_fract *fractol, int x, int y, int i)
 {
-	double t = (double)i / MAX_IT;
-	int color;
-	#
+	double	t;
+	int		color;
+
+	t = (double)i / MAX_IT;
 	color = encode_rgb((9 * (1 - t) * t * t * t * 255),
-		(15 * (1 - t) * (1 - t) * t * t * 255),
-		(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255));
+			(15 * (1 - t) * (1 - t) * t * t * 255),
+			(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255));
 	img_pixel_put(&fractol->img, x, y, color);
-}
-
-void	img_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	encode_rgb(t_byte r, t_byte g, t_byte b)
-{
-	return (r << 16 | g << 8 | b);
 }
 
 int	get_color_iter_j(int i, t_fract *fractol)
@@ -68,7 +56,7 @@ int	get_color_iter(int i, t_fract *fractol)
 	if (i > max_it)
 		index = 9;
 	else if (i == 0)
-		index = 0;	
+		index = 0;
 	else
 		index = scale_int_to_int(i, get_ir(1, MAX_IT), get_ir(1, 9));
 	return (fractol->color[index]);

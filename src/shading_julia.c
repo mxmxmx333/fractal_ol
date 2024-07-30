@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 19:16:18 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 23:06:34 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:40 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	shader_julia(t_fract *fractol)
 {
 	int	x;
 	int	y;
-	int	i;
 
 	y = -1;
 	while (HEIGHT > ++y)
@@ -35,7 +34,6 @@ void	shader_julia2(t_fract *fractol)
 {
 	int	x;
 	int	y;
-	int	i;
 	int	color;
 
 	y = -1;
@@ -52,7 +50,6 @@ void	shader_julia2(t_fract *fractol)
 		fractol->img.img, 0, 0);
 }
 
-
 void	shader_julia4(t_fract *fractol)
 {
 	int		x;
@@ -61,7 +58,7 @@ void	shader_julia4(t_fract *fractol)
 	t_rgb	rgb;
 
 	y = -1;
-	while  (++y < HEIGHT)
+	while (++y < HEIGHT)
 	{
 		x = -1;
 		while (++x < WIDTH)

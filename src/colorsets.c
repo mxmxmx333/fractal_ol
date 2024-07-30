@@ -6,13 +6,13 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:17:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/20 17:17:54 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:42:26 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-// //ROYAL ELEGANCE
+//ROYAL ELEGANCE
 void	put_colorset_royal_elegance(t_fract *fractol)
 {
 	fractol->color[0] = 0;

@@ -6,27 +6,27 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:22:53 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 23:10:13 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:44:45 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-void	set_render(t_fract *fractol, char c)
+void	set_render(t_fract *fractol, int keysym)
 {
-	if (c == 'm')
+	if (keysym == XK_m)
 	{
 		fractol->render = render_mandelbrot;
 		fractol->shader = shader_mandelbrot;
 		set_range(fractol, get_dr(-2.0, 2.0), get_dr(2.0, -2.0));
 	}
-	if (c == 'j')
+	if (keysym == XK_j)
 	{
 		fractol->render = render_julia;
 		fractol->shader = shader_julia;
 		set_range(fractol, get_dr(-2.0, 2.0), get_dr(2.0, -2.0));
 	}
-	if (c == 'b')
+	if (keysym == XK_b)
 	{
 		fractol->render = render_buddhabrot;
 		fractol->shader = buddha_to_img;
@@ -35,8 +35,6 @@ void	set_render(t_fract *fractol, char c)
 	}
 	fractol->render(fractol);
 }
-
-
 
 void	render_mandelbrot(t_fract *fractol)
 {
@@ -52,7 +50,6 @@ void	render_mandelbrot(t_fract *fractol)
 		while (WIDTH > ++x)
 		{
 			i = iterations_mb(apply_rotation(x, y, fractol), fractol);
-			// img_pixel_put(&fractol->img, x, y, get_color_iter(i, fractol));
 			fractol->buddha[y][x][0] = i;
 		}
 	}
@@ -76,17 +73,15 @@ void	render_buddhabrot(t_fract *fractol)
 		while (WIDTH * fractol->b_factor > ++x)
 		{
 			p = get_pixel(x, y);
-			if (diverges(fractol, p, 3000))
-				iterations_buddha(p, fractol, 500, 0);
-			if (diverges(fractol, p, 20000))
-				iterations_buddha(p, fractol, 500, 1);
-			if (diverges(fractol, p, 50000))
-				iterations_buddha(p, fractol, 500, 2);
+			if (diverges(fractol, p, fractol->buddha_it1))
+				iterations_buddha(p, fractol, fractol->buddha_it1, 0);
+			if (diverges(fractol, p, fractol->buddha_it2))
+				iterations_buddha(p, fractol, fractol->buddha_it2, 1);
+			if (diverges(fractol, p, fractol->buddha_it3))
+				iterations_buddha(p, fractol, fractol->buddha_it3, 2);
 		}
-		printf("y = %d\n", y);
 	}
 	buddha_to_img(fractol);
-	printf("done\n");
 	mlx_put_image_to_window(fractol->mlx_ptr,
 		fractol->win_ptr, fractol->img.img, 0, 0);
 }
@@ -96,7 +91,6 @@ void	render_julia(t_fract *fractol)
 	int	x;
 	int	y;
 	int	i;
-	int	max;
 
 	fractol->m1 = 0;
 	y = -1;

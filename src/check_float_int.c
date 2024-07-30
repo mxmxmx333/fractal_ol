@@ -1,40 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_complex.c                                     :+:      :+:    :+:   */
+/*   check_float_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 17:33:13 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/23 11:18:06 by mbonengl         ###   ########.fr       */
+/*   Created: 2024/07/30 15:49:40 by mbonengl          #+#    #+#             */
+/*   Updated: 2024/07/30 15:54:08 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-t_complex	get_complex(double re, double im)
+int	is_float(char *str)
 {
-	t_complex	c;
+	int	i;
+	int	dot;
 
-	c.r = re;
-	c.i = im;
-	return (c);
+	i = 0;
+	dot = 0;
+	if (str[i] == '-')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+		{
+			if (str[i] == '.' && dot == 0)
+				dot++;
+			else
+				return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
-t_complex	complex_add(t_complex a, t_complex b)
+int	is_pos_int(char *str)
 {
-	t_complex	c;
+	int	i;
 
-	c.r = a.r + b.r;
-	c.i = a.i + b.i;
-	return (c);
-}
-
-t_complex	complex_sqr(t_complex a)
-{
-	t_complex	c;
-
-	c.r = a.r * a.r - a.i * a.i;
-	c.i = 2 * a.r * a.i;
-	return (c);
+	i = 0;
+	if (str[i] == '-')
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

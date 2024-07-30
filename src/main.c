@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:06 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 20:35:21 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:05:23 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ int	main(int argc, char **argv)
 	t_fract	*fractol;
 
 	fractol = intialize();
-	set_render(fractol, 'm');
+	set_render(fractol, XK_m);
 	if (!input(argc, argv, fractol))
 		return (mlx_exit(fractol), 1);
+	printf("Max Iterations: %d\n", MAX_IT);
 	ft_putstr_fd(CONTROLS, 1);
 	mlx_hook(fractol->win_ptr, 17, 0, mlx_exit, fractol);
 	mlx_mouse_hook(fractol->win_ptr, handle_mouse, fractol);

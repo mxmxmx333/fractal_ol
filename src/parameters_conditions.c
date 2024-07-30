@@ -1,40 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_complex.c                                     :+:      :+:    :+:   */
+/*   parameters_conditions.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 17:33:13 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/23 11:18:06 by mbonengl         ###   ########.fr       */
+/*   Created: 2024/07/23 11:28:30 by mbonengl          #+#    #+#             */
+/*   Updated: 2024/07/30 15:54:00 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-t_complex	get_complex(double re, double im)
+int	condition_buddha(int argc, char **argv)
 {
-	t_complex	c;
-
-	c.r = re;
-	c.i = im;
-	return (c);
-}
-
-t_complex	complex_add(t_complex a, t_complex b)
-{
-	t_complex	c;
-
-	c.r = a.r + b.r;
-	c.i = a.i + b.i;
-	return (c);
-}
-
-t_complex	complex_sqr(t_complex a)
-{
-	t_complex	c;
-
-	c.r = a.r * a.r - a.i * a.i;
-	c.i = 2 * a.r * a.i;
-	return (c);
+	return ((argc == 2 || argc == 5) && ft_strncmp
+		(argv[1], "buddhabrot", 10) == 0 && argv[1][10] == '\0');
 }

@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 19:55:10 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 23:07:31 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:53:33 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	shader_mandelbrot(t_fract *fractol)
 {
 	int	x;
 	int	y;
-	int	i;
 
 	y = -1;
 	while (HEIGHT > ++y)
@@ -35,9 +34,8 @@ void	shader_mandelbrot2(t_fract *fractol)
 {
 	int	x;
 	int	y;
-	int	i;
 	int	color;
-	
+
 	y = -1;
 	while (HEIGHT > ++y)
 	{
@@ -56,7 +54,6 @@ void	shader_mandelbrot3(t_fract *fractol)
 {
 	int	x;
 	int	y;
-	int	i;
 	int	color;
 
 	y = -1;
@@ -81,7 +78,7 @@ void	shader_mandelbrot4(t_fract *fractol)
 	t_rgb	rgb;
 
 	y = -1;
-	while  (++y < HEIGHT)
+	while (++y < HEIGHT)
 	{
 		x = -1;
 		while (++x < WIDTH)

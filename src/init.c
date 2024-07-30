@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:13:54 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 22:39:57 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:33:12 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ t_fract	*init_fractol(void)
 	fractol->img.addr = NULL;
 	fractol->b_factor = 1;
 	fractol->julia = (t_complex){-0.8, 0.4};
-	fractol->shift = 0;
+	fractol->buddha_it1 = 200;
+	fractol->buddha_it2 = 500;
+	fractol->buddha_it3 = 1000;
 	put_colorsets_1_2(fractol);
 	return (fractol);
 }

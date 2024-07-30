@@ -6,7 +6,7 @@
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:54:15 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/22 22:35:41 by mbonengl         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:49:24 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # endif
 
 # ifndef MAX_IT
-#  define MAX_IT 500 //maximum iteration
+#  define MAX_IT 930 //maximum iteration
 # endif
 
 # ifndef ZOOM_FACTOR
@@ -46,7 +46,7 @@
 //byte is an unsigned char used to store rgb values
 typedef unsigned char	t_byte;
 
-typedef struct s_rgb 
+typedef struct s_rgb
 {
 	t_byte	r;
 	t_byte	g;
@@ -98,9 +98,9 @@ typedef struct s_fract
 	double			x_max; //maximum x
 	double			y_min; //minimum y
 	double			y_max; //maximum y
-	int				(*getcolor)(int i, struct s_fract *fractol); //get color function
-	void			(*render)(struct s_fract *fractol); //render function
-	void			(*shader)(struct s_fract *fractol); //shader function
+	int				(*getcolor)(int i, struct s_fract *fractol);
+	void			(*render)(struct s_fract *fractol);
+	void			(*shader)(struct s_fract *fractol);
 	int				m1; //max1
 	int				m2; //max2
 	int				m3; //max3
@@ -108,14 +108,24 @@ typedef struct s_fract
 	int				color2[10];
 	int				color3[10]; //color palette
 	int				buddha[HEIGHT][WIDTH][3]; //buddhabrot array
+	int				buddha_it1; //buddhabrot iteration 1
+	int				buddha_it2; //buddhabrot iteration 2
+	int				buddha_it3; //buddhabrot iteration 3
 	int				b_factor; //factor for buddhabrot
 	t_complex		julia; //julia set
-	t_byte			shift; //shift the colors of the rgb shader
 }	t_fract;
 
 //initialization & main
 t_fract		*intialize(void);
 int			input(int argc, char **argv, t_fract *fractol);
+int			condition_buddha(int argc, char **argv);
+int			is_float(char *str);
+int			is_pos_int(char *str);
+
+//messages
+void		usage_error(void);
+void		default_mode(void);
+void		mlx_error(void);
 
 //coloring && rendering
 void		img_pixel_put(t_img *img, int x, int y, int color);
@@ -124,10 +134,12 @@ int			get_color_iter_j(int i, t_fract *fractol);
 void		color_img_black(t_fract *fractol);
 void		apply_color(t_fract *fractol, int x, int y, int i);
 void		apply_s_color(t_fract *fractol, int x, int y, int i);
+int			get_buddha_color(t_fract *f, int i, int j);
 
 //RGB
 t_rgb		encodecolor(int color);
 int			encode_rgb(t_byte r, t_byte g, t_byte b);
+int			add_rgb(int color, int color2);
 
 //colorsets
 void		put_colorset_royal_elegance(t_fract *fractol);
@@ -152,7 +164,6 @@ void		shader_julia(t_fract *fractol);
 void		shader_julia2(t_fract *fractol);
 void		shader_julia4(t_fract *fractol);
 
-
 //math && scaling
 void		set_range(t_fract *fractol, t_d_ranges x, t_d_ranges y);
 double		scale_int_to_double(int x, t_i_ranges old, t_d_ranges new);
@@ -166,6 +177,7 @@ t_pixel		apply_rotation(int x, int y, t_fract *fractol);
 t_pixel		get_pixel(int x, int y);
 
 //complex math
+t_complex	get_complex(double re, double im);
 t_complex	complex_add(t_complex a, t_complex b);
 t_complex	complex_sqr(t_complex a);
 
@@ -181,7 +193,7 @@ void		iterations_buddha(t_pixel p, t_fract *fractol, int max_it, int pos);
 int			diverges(t_fract *fractol, t_pixel p, int max_it);
 
 //controls
-void		set_render(t_fract *fractol, char c);
+void		set_render(t_fract *fractol, int keysym);
 void		all_moves(int keysym, t_fract *fractol);
 void		move_up(t_fract *fractol);
 void		move_down(t_fract *fractol);
@@ -192,12 +204,14 @@ int			mlx_exit(t_fract *fractol);
 int			handle_key(int keysym, t_fract *fractol);
 void		manipulations(int keysym, t_fract *fractol);
 void		editjulia(t_fract *fractol, double x, double y);
+void		set_colors(int keysym, t_fract *fractol);
+void		cpy_color_2(t_fract *fractol, int keysym);
+void		cpy_color_3(t_fract *fractol);
 
 //helpers
 t_i_ranges	get_ir(int min, int max);
 t_d_ranges	get_dr(double min, double max);
 void		set_buddha_to_zero(t_fract *fractol);
 double		ft_atof(const char *str);
-
 
 #endif

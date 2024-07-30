@@ -1,40 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_complex.c                                     :+:      :+:    :+:   */
+/*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbonengl <mbonengl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 17:33:13 by mbonengl          #+#    #+#             */
-/*   Updated: 2024/07/23 11:18:06 by mbonengl         ###   ########.fr       */
+/*   Created: 2024/07/23 11:15:16 by mbonengl          #+#    #+#             */
+/*   Updated: 2024/07/30 15:53:54 by mbonengl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractal.h"
 
-t_complex	get_complex(double re, double im)
+void	mlx_error(void)
 {
-	t_complex	c;
-
-	c.r = re;
-	c.i = im;
-	return (c);
+	ft_putstr_fd(MLX_ERROR, 2);
+	exit(1);
 }
 
-t_complex	complex_add(t_complex a, t_complex b)
+void	usage_error(void)
 {
-	t_complex	c;
-
-	c.r = a.r + b.r;
-	c.i = a.i + b.i;
-	return (c);
+	ft_putstr_fd(USAGE, 2);
 }
 
-t_complex	complex_sqr(t_complex a)
+void	default_mode(void)
 {
-	t_complex	c;
-
-	c.r = a.r * a.r - a.i * a.i;
-	c.i = 2 * a.r * a.i;
-	return (c);
+	ft_putstr_fd(USAGE, 1);
+	ft_putstr_fd(DEFAULT_MODE, 1);
 }
